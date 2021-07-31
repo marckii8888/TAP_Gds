@@ -30,8 +30,9 @@ func (helper *Helper) ShortenURL(c *gin.Context){
 	result, err := internal.ShortenURL(helper.db, req.OriginalUrl)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message" : fmt.Sprintf("Error : %+v"),
+			"message" : fmt.Sprintf("Error : %+v", err),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message" : result,
@@ -39,7 +40,14 @@ func (helper *Helper) ShortenURL(c *gin.Context){
 }
 
 func (helper *Helper) Redirect(c *gin.Context){
-	c.JSON(http.StatusOK, gin.H{
-		"message" : "Redirected",
-	})
+	code, _ := c.Params.Get("code")
+	var url internal.URL
+	err := internal.RedirectURL(helper.db, code, &url)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"message" : fmt.Sprintf("Error : %+v", err),
+		})
+		return
+	}
+	c.Redirect(http.StatusFound, url.OriginalUrl)
 }

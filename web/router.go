@@ -19,7 +19,7 @@ func NewRouter() *Router{
 	// POST Request to return the shorten url
 	urlAPI.POST("/shorten", helper.ShortenURL)
 	// GET request to redirect
-	router.GET("/", helper.Redirect)
+	router.GET("/:code", helper.Redirect)
 
 	return &Router{
 		router,
