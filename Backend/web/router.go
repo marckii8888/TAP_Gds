@@ -3,7 +3,7 @@ package web
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/marckii8888/TAP_Gds/web/handlers"
+	handlers2 "github.com/marckii8888/TAP_Gds/Backend/web/handlers"
 	"log"
 )
 
@@ -11,10 +11,10 @@ type Router struct {
 	*gin.Engine
 }
 
-func NewRouter() *Router{
+func NewRouter() *Router {
 	router := gin.Default()
 
-	helper := handlers.New()
+	helper := handlers2.New()
 	urlAPI := router.Group("/api")
 	// POST Request to return the shorten url
 	urlAPI.POST("/shorten", helper.ShortenURL)
