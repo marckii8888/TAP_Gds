@@ -38,3 +38,10 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 }
 
 // Retrieve from DB
+func RedirectURL(db *gorm.DB, code string, url *URL) error {
+	err := db.Where("code = ?", code).First(url).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
