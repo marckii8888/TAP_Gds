@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/marckii8888/TAP_Gds/Backend/web"
+	"github.com/marckii8888/TAP_Gds/web"
 )
 
 func main(){
