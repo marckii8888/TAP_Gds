@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	internal2 "github.com/marckii8888/TAP_Gds/Backend/internal"
+	"github.com/marckii8888/TAP_Gds/Backend/internal"
 	"gorm.io/gorm"
 	"net/http"
 )
@@ -14,21 +14,22 @@ type Helper struct{
 }
 
 func New() *Helper {
-	db := internal2.InitDB()
-	db.AutoMigrate(&internal2.URL{})
+	db := internal.InitDB()
+	db.AutoMigrate(&internal.URL{})
 	return &Helper{db : db}
 }
 
+// ShortenURL
+// @Summary handler to generate a unique code and store it in the db with the original url
 func (helper *Helper) ShortenURL(c *gin.Context){
-	var req internal2.URLReq
+	var req internal.URLReq
 	if err := c.ShouldBindBodyWith(&req, binding.JSON); err != nil{
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message" : fmt.Sprintf("Error : %+v", err),
 		})
 		return
 	}
-	fmt.Printf("%+v", req)
-	result, err := internal2.ShortenURL(helper.db, req.OriginalUrl)
+	result, err := internal.ShortenURL(helper.db, req.OriginalUrl)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message" : fmt.Sprintf("Error : %+v", err),
@@ -40,13 +41,18 @@ func (helper *Helper) ShortenURL(c *gin.Context){
 	})
 }
 
+// Redirect
+// @Summary helper function that processes a GET request. Looks up
+// the unique code in the database and retrieve the original url
+// @Params unique code
 func (helper *Helper) Redirect(c *gin.Context){
 	code, _ := c.Params.Get("code")
-	var url internal2.URL
-	err := internal2.RedirectURL(helper.db, code, &url)
+	var url internal.URL
+	err := internal.RedirectURL(helper.db, code, &url)
 	if err != nil {
+		// If the shortened url does not exists
 		c.JSON(http.StatusOK, gin.H{
-			"message" : fmt.Sprintf("Error : %+v", err),
+			"message" : "Error! Invalid url",
 		})
 		return
 	}

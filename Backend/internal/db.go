@@ -1,21 +1,27 @@
 package internal
 
 import (
+	"github.com/marckii8888/TAP_Gds/Backend/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
 )
 
-// TODO: Change to read from config file
-const (
-	DB_USERNAME = "root"
-	DB_PASSWORD = "root123"
-	DB_NAME = "gds_assessment"
-	DB_HOST = "127.0.0.1"
-	DB_PORT = "3306"
+var (
+	DB_USERNAME string
+	DB_PASSWORD string
+	DB_NAME string
+	DB_HOST string
+	DB_PORT string
 )
 
 func InitDB() *gorm.DB {
+	DB_USERNAME = config.Conf.Database.User
+	DB_PASSWORD = config.Conf.Database.Password
+	DB_NAME = config.Conf.Database.Name
+	DB_HOST = config.Conf.Database.Host
+	DB_PORT = config.Conf.Database.Port
+
 	db := connectDB()
 	return db
 }

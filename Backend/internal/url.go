@@ -49,7 +49,8 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 	return shortUrl, nil
 }
 
-// Retrieve from DB
+// RedirectURL
+// @Summary Checks if unique code exists in database
 func RedirectURL(db *gorm.DB, code string, url *URL) error {
 	err := db.Where("code = ?", code).First(url).Error
 	if err != nil {
