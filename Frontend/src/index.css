@@ -18,6 +18,13 @@ button {
   background-color: rgb(131, 199, 211) !important;
 }
 
+/* @media only screen and (max-width: 620px) {
+
+  .button-wrapper {
+    width: 100%;
+  }
+} */
+
 #pagebody {
   margin-top: 14%;
 }

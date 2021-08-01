@@ -37,15 +37,15 @@ class UrlField extends React.Component {
     return (
       <Container fluid className="container" id="pagebody">
         <Row>
-          <h1>Title</h1>
+          <h1>URL Shortener</h1>
         </Row>
         <Row>
           <Form onSubmit={this.shortenUrl}>
             <Row>
-              <Col md={{ span: 5, offset: 3 }}>
+              <Col md={{ span: 5, offset: 3 }} xs="11">
                 <FloatingLabel
                   controlId="floatingInput"
-                  label="Long URL"
+                  label="Paste a link to shorten it"
                   className="mb-3"
                 >
                   <Form.Control
@@ -56,9 +56,9 @@ class UrlField extends React.Component {
                   />
                 </FloatingLabel>
               </Col>
-              <Col xs="auto">
+              <Col md="auto" xs>
                 <Button id="submitBtn" type="submit">
-                  Shorten!
+                  SHORTEN!
                 </Button>
               </Col>
             </Row>
