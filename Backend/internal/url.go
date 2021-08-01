@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"errors"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
 )
@@ -17,10 +18,21 @@ type URLReq struct {
 
 const BASE_URL = "http://localhost:8081/"
 
-// Add to DB
+// ShortenURL
+// @Summary Function to shorten the url by generating unique code and storing in db
 func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
-	// Generate a unique code
-	uniqueCode := ksuid.New().String()[0:7]
+	var dbUrl URL
+	var uniqueCode string
+	for {
+		// Generate the unique code
+		uniqueCode = ksuid.New().String()[0:7]
+
+		err := db.Where("code = ?", uniqueCode).First(&dbUrl).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// If code does not exists in database
+			break
+		}
+	}
 	// Append unique code to localhost:8081/code
 	shortUrl := BASE_URL + uniqueCode
 
