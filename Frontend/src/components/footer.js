@@ -5,7 +5,7 @@ class Footer extends React.Component {
     return (
       <footer className="footer">
         <div className="inner">
-          <p>For GovTech TAP - GDS techinical assessment uses only</p>
+          <p>Developed by: <a href="https://github.com/marckii8888" style={{textDecoration: 'none', color : 'white'}}>Marcus Cheong</a></p>
         </div>
       </footer>
     );
