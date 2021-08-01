@@ -27,6 +27,7 @@ func (helper *Helper) ShortenURL(c *gin.Context){
 		})
 		return
 	}
+	fmt.Printf("%+v", req)
 	result, err := internal2.ShortenURL(helper.db, req.OriginalUrl)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
