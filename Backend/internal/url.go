@@ -2,6 +2,8 @@ package internal
 
 import (
 	"errors"
+	"fmt"
+	"github.com/marckii8888/TAP_Gds/Backend/config"
 	"github.com/segmentio/ksuid"
 	"gorm.io/gorm"
 )
@@ -16,7 +18,6 @@ type URLReq struct {
 	OriginalUrl string `json:"original_url"`
 }
 
-const BASE_URL = "http://localhost:8081/"
 
 // ShortenURL
 // @Summary Function to shorten the url by generating unique code and storing in db
@@ -34,6 +35,7 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 		}
 	}
 	// Append unique code to localhost:8081/code
+	var BASE_URL = fmt.Sprintf("http://%+v:+%v", config.Conf.Server.Host, config.Conf.Server.Port)
 	shortUrl := BASE_URL + uniqueCode
 
 	newURL := &URL{

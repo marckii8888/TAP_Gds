@@ -9,7 +9,7 @@ The URL Shortener uses the following technologies:
 ### Frontend
 - ReactJS - Frontend framework, styled with bootstrap css
 ### Backend
-- [Golang] - To host the REST API
+- Golang - To host the REST API
 - MySQL - Relational database to store url mappings
  
 ## Installation
