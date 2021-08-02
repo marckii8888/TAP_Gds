@@ -35,7 +35,7 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 		}
 	}
 	// Append unique code to localhost:8081/code
-	var BASE_URL = fmt.Sprintf("http://%+v:+%v", config.Conf.Server.Host, config.Conf.Server.Port)
+	var BASE_URL = fmt.Sprintf("http://%+v:%+v/", config.Conf.Server.Host, config.Conf.Server.Port)
 	shortUrl := BASE_URL + uniqueCode
 
 	newURL := &URL{
