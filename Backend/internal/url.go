@@ -12,6 +12,7 @@ type URL struct{
 	OriginalUrl string `json:"original_url"`
 	ShortUrl string `json:"short_url"`
 	Code string `json:"code"`
+	Enabled bool `json:"enabled"`
 }
 
 type URLReq struct {
@@ -42,6 +43,7 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 		OriginalUrl: originalUrl,
 		ShortUrl: shortUrl,
 		Code: uniqueCode,
+		Enabled: true,
 	}
 
 	err := db.Create(newURL).Error
@@ -55,8 +57,24 @@ func ShortenURL(db *gorm.DB, originalUrl string) (string ,error) {
 // @Summary Checks if unique code exists in database
 func RedirectURL(db *gorm.DB, code string, url *URL) error {
 	err := db.Where("code = ?", code).First(url).Error
+
+	// How to query multiple fields? in gormdb
+	// How to update rows in gormdb
+	// Delete the row where code = ?, code
+
 	if err != nil {
 		return err
 	}
+
+	// Check if url is enabled
+	if url.Enabled != true {
+		// URL is diabled
+		return fmt.Errorf("Url is disabled")
+	}
+
+	// URL is enabled
+	// Disabled it here
+	db.Model(url).Where("code = ?", code).Update("enabled", false)
+
 	return nil
 }
